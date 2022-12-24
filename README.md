@@ -2,6 +2,9 @@
 
 Dotfiles with Ansible!
 
+<!--ts-->
+<!--te-->
+
 ## What is this?
 
 This is an Ansible project used to configure and maintain ubuntu based development VM, install software, manage dotfiles, manage the configuration and more.
