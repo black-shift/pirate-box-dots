@@ -3,6 +3,12 @@
 Dotfiles with Ansible!
 
 <!--ts-->
+* [.dots](#dots)
+   * [What is this?](#what-is-this)
+   * [How to use](#how-to-use)
+      * [Using Terraform](#using-terraform)
+      * [Using manual installation](#using-manual-installation)
+      * [Credits](#credits)
 <!--te-->
 
 ## What is this?
