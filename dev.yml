@@ -107,7 +107,6 @@
         owner: '{{host_username}}'
         group: '{{host_username}}'
       loop:
-        - '/home/{{host_username}}/dots'
         - '/home/{{host_username}}/playground'
       become: true
       tags: ['dir-structure']
@@ -123,3 +122,10 @@
         - awscli
         - pipenv
       become: true
+      
+   - name: Clone dots repo to the created box
+     git:
+       repo: '{{ lookup("file", "../dots_repo") }}'
+       dest: '/home/{{host_username}}/dots'
+       clone: yes
+       update: yes
