@@ -122,10 +122,9 @@
         - awscli
         - pipenv
       become: true
-      
     - name: Clone dots repo to the created box
       git:
         repo: '{{ lookup("file", "../dots_repo") }}'
         dest: '/home/{{host_username}}/dots'
-        clone: yes
-        update: yes
+        clone: true
+        update: true
