@@ -148,12 +148,12 @@
         - pipenv
         - docker
       become: true
-    - name: Clone dots repo to the created box
-      git:
-        repo: '{{ lookup("file", "../dots_repo") }}'
-        dest: '/home/{{host_username}}/dots'
-        clone: true
-        update: true
+#    - name: Clone dots repo to the created box
+#      git:
+   #     repo: '{{ lookup("file", "../dots_repo") }}'
+   #     dest: '/home/{{host_username}}/dots'
+   #     clone: true
+   #     update: true
     - name: Pull default Docker image
       community.docker.docker_image:
         name: "nginx"
