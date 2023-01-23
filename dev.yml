@@ -10,10 +10,17 @@
       service: name=sshd state=restarted
       become: true
   tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
     - name: Install base system packages
       package:
         name: '{{item}}'
         state: latest
+        update_cache: true
       loop:
         - curl
         - git
@@ -23,15 +30,32 @@
         - unzip
         - wget
         - zip
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
+        - virtualenv
+        - python3-setuptools
       tags: ['base_packages', 'packages']
       become: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
 
     - name: Install dev packages
       package:
         name: '{{item}}'
         state: latest
+        update_cache: true
       loop:
         - ffmpeg
+        - docker-ce
       become: true
       tags: ['packages']
 
@@ -121,6 +145,7 @@
         - ansible
         - awscli
         - pipenv
+        - docker
       become: true
     - name: Clone dots repo to the created box
       git:
@@ -128,3 +153,13 @@
         dest: '/home/{{host_username}}/dots'
         clone: true
         update: true
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "nginx"
+        source: pull
+
+    - name: Create nginx container
+      community.docker.docker_container:
+        name: "nginx"
+        image: "nginx"
+        state: present
