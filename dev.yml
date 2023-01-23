@@ -49,12 +49,12 @@
         repo: deb https://download.docker.com/linux/ubuntu focal stable
         state: present
       become: true
-      
+
     - name: Install dev packages
       apt:
         state: latest
         update_cache: true
-        pgk:
+        pkg:
           - ffmpeg
           - docker-ce
       become: true
