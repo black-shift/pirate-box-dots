@@ -154,6 +154,19 @@
    #     dest: '/home/{{host_username}}/dots'
    #     clone: true
    #     update: true
+    - name: Create docker group
+      group:
+        name: docker
+        state: present
+      become: yes
+
+    - name: Add user to the docker group
+      user:
+        name: "{{ host_username }}"
+        groups: docker
+        append: yes
+      become: yes
+
     - name: Pull default Docker image
       community.docker.docker_image:
         name: "nginx"
