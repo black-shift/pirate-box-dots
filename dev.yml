@@ -169,11 +169,11 @@
 
     - name: Pull default Docker image
       community.docker.docker_image:
-        name: "nginx"
+        name: "hello-world"
         source: pull
 
     - name: Create nginx container
       community.docker.docker_container:
-        name: "nginx"
-        image: "nginx"
+        name: "hello-world"
+        image: "hello-world"
         state: present
