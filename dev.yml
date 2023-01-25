@@ -171,13 +171,13 @@
         append: yes
       become: yes
 
-    # - name: Pull default Docker image
-    #   community.docker.docker_image:
-    #     name: "hello-world"
-    #     source: pull
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "hello-world"
+        source: pull
 
-    # - name: Create nginx container
-    #   community.docker.docker_container:
-    #     name: "hello-world"
-    #     image: "hello-world"
-    #     state: present
+    - name: Create Hello-World container
+      community.docker.docker_container:
+        name: "hello-world"
+        image: "hello-world"
+        state: present
