@@ -4,7 +4,7 @@
 
   vars:
     host_username: ubuntu
-    authorized_keys: '{{ lookup("file", "../id_rsa.pub") }}'
+    authorized_keys: '{{ lookup("file", "../id_rsa.pub", errors='ignore') }}'
   handlers:
     - name: Restart sshd
       service: name=sshd state=restarted
@@ -69,24 +69,24 @@
       tags: ['packages']
       become: true
 
-# Create Dir
-    - name: Create Test Dir
-      file:
-        path: /test-dir
-        state: directory
-        mode: '0755'
-        owner: root
-        group: root
-      become: true
+    # Create Dir
+    # - name: Create Test Dir
+    #   file:
+    #     path: /test-dir
+    #     state: directory
+    #     mode: '0755'
+    #     owner: root
+    #     group: root
+    #   become: true
 
-    - name: Copy File in Test Dir
-      copy:
-        src: user
-        dest: /test-dir/user
-        mode: '0644'
-        owner: root
-        group: root
-      become: true
+    # - name: Copy File in Test Dir
+    #   copy:
+    #     src: user
+    #     dest: /test-dir/user
+    #     mode: '0644'
+    #     owner: root
+    #     group: root
+    #   become: true
 
     - name: Ensure personal dot files
       copy:
@@ -148,12 +148,16 @@
         - pipenv
         - docker
       become: true
-#    - name: Clone dots repo to the created box
-#      git:
-   #     repo: '{{ lookup("file", "../dots_repo") }}'
-   #     dest: '/home/{{host_username}}/dots'
-   #     clone: true
-   #     update: true
+
+    - name: Clone dots repo to the created box
+      git:
+        repo: '{{ lookup("file", "../{{item}}_repo") }}'
+        dest: '/home/{{host_username}}/{{item}}'
+        clone: true
+        update: true
+      loop:
+        - dots
+    
     - name: Create docker group
       group:
         name: docker
@@ -167,13 +171,13 @@
         append: yes
       become: yes
 
-    - name: Pull default Docker image
-      community.docker.docker_image:
-        name: "hello-world"
-        source: pull
+    # - name: Pull default Docker image
+    #   community.docker.docker_image:
+    #     name: "hello-world"
+    #     source: pull
 
-    - name: Create nginx container
-      community.docker.docker_container:
-        name: "hello-world"
-        image: "hello-world"
-        state: present
+    # - name: Create nginx container
+    #   community.docker.docker_container:
+    #     name: "hello-world"
+    #     image: "hello-world"
+    #     state: present
