@@ -71,6 +71,7 @@
         lock_timeout: 60
         pkg:
           - docker-ce
+          - docker-compose
           - terraform
       become: true
       tags: ['packages']
@@ -178,6 +179,7 @@
         update: true
       loop:
         - dots
+        - doclab
     
     - name: Create docker group
       group:
