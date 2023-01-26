@@ -15,12 +15,14 @@
         name: aptitude
         state: latest
         update_cache: true
+        lock_timeout: 120
       become: true
 
     - name: Install base system packages
       apt:
         state: latest
         update_cache: true
+        lock_timeout: 60
         pkg:
           - curl
           - git
@@ -60,6 +62,7 @@
       apt:
         state: latest
         update_cache: true
+        lock_timeout: 60
         pkg:
           - docker-ce
           - terraform
