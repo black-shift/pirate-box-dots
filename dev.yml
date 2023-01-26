@@ -41,6 +41,9 @@
           - virtualenv
           - python3-setuptools
       tags: ['base_packages', 'packages']
+      register: apt_action
+      retries: 100
+      until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
       become: true
 
     - name: Add GPG apt Keys
@@ -71,6 +74,9 @@
           - terraform
       become: true
       tags: ['packages']
+      register: apt_action
+      retries: 100
+      until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
     - name: Remove not-needed packages
       package:
@@ -80,6 +86,9 @@
         - fedora-chromium-config
       tags: ['packages']
       become: true
+      register: apt_action
+      retries: 100
+      until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
     # Create Dir
     # - name: Create Test Dir
