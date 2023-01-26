@@ -53,8 +53,8 @@
         state: present
       become: true
       loop:
-        - deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
-        - deb https://apt.releases.hashicorp.com $(lsb_release -cs) main
+        - deb https://download.docker.com/linux/ubuntu focal stable
+        - deb https://apt.releases.hashicorp.com focal main
 
     - name: Install dev packages
       apt:
