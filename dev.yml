@@ -3,7 +3,7 @@
   hosts: dev
 
  roles:
-    - geerlingguy.glusterfs
+  - geerlingguy.glusterfs
 
   vars:
     glusterfs_server_hostname: pirate
