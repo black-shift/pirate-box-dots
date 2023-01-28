@@ -7,9 +7,9 @@
 
   vars:
     glusterfs_server_hostname: pirate
-    glusterfs_server_ip: '{{ lookup("file", "../ipv4_host", errors="ignore") }}' 
+    glusterfs_server_ip: '{{ lookup("file", "ipv4_host", errors="ignore") }}' 
     host_username: ubuntu
-    authorized_keys: '{{ lookup("file", "../id_rsa.pub", errors="ignore") }}'
+    authorized_keys: '{{ lookup("file", "id_rsa.pub", errors="ignore") }}'
   handlers:
     - name: Restart sshd
       service: name=sshd state=restarted
@@ -179,7 +179,7 @@
 
     - name: Clone dots repo to the created box
       git:
-        repo: '{{ lookup("file", "../{{item}}_repo") }}'
+        repo: '{{ lookup("file", "{{item}}_repo") }}'
         dest: '/home/{{host_username}}/{{item}}'
         clone: true
         update: true
