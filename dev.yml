@@ -2,7 +2,12 @@
 - name: Configure Pirate Box
   hosts: dev
 
+ roles:
+    - geerlingguy.glusterfs
+
   vars:
+    glusterfs_server_hostname: pirate
+    glusterfs_server_ip: '{{ lookup("file", "../ipv4_host", errors="ignore") }}' 
     host_username: ubuntu
     authorized_keys: '{{ lookup("file", "../id_rsa.pub", errors="ignore") }}'
   handlers:
@@ -145,6 +150,7 @@
         group: '{{host_username}}'
       loop:
         - { src: dots/authorized_keys, dest: '/home/{{host_username}}/.ssh/authorized_keys' }
+        - { src: dots/ssh_config, dest: '/home/{{host_username}}/.ssh/config' }
 
     - name: Ensure default directories in home
       file:
@@ -193,6 +199,18 @@
         groups: docker
         append: yes
       become: yes
+
+    - name: Ensure Gluster volume is mounted.
+      mount:
+        name: "{{ item }}"
+        src: "{{ glusterfs_server_hostname }}:/{{ item }}"
+        fstype: glusterfs
+        opts: "defaults,_netdev"
+        state: mounted
+      loop:
+        - media
+        - config
+        - backup
 
     # - name: Pull default Docker image
     #   community.docker.docker_image:

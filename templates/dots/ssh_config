@@ -1,0 +1,2 @@
+Host {{ glusterfs_server }}
+    HostName {{ glusterfs_server_ip }}
