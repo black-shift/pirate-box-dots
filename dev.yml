@@ -215,7 +215,7 @@
         path: /mnt/{{ item }}
         state: directory
         mode: '0775'
-        owner: {{ host_username }}
+        owner: '{{ host_username }}'
         group: docker
       become: true
       loop:
