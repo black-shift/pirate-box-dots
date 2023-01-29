@@ -214,9 +214,9 @@
       file:
         path: /mnt/{{ item }}
         state: directory
-        mode: '0755'
-        owner: root
-        group: root
+        mode: '0775'
+        owner: {{ host_username }}
+        group: docker
       become: true
       loop:
         - media
