@@ -2,8 +2,8 @@
 - name: Configure Pirate Box
   hosts: dev
 
-  roles:
-    - { role: geerlingguy.glusterfs,  become: yes }
+  # roles:
+  #   - { role: geerlingguy.glusterfs,  become: yes }
 
   vars:
     glusterfs_server_hostname: pirate
@@ -50,6 +50,10 @@
       retries: 100
       until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
       become: true
+
+    - import_role:
+      name: geerlingguy.glusterfs
+      become: yes
 
     - name: Add GPG apt Keys
       apt_key:
