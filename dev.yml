@@ -202,6 +202,14 @@
         append: true
       become: true
 
+    - name: "Add glusterfs hostname to hosts files"
+      become: true
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ glusterfs_server_ip }} {{ glusterfs_server_hostname }}"
+        state: present
+        backup: yes
+
     - name: Create Glusterfs mount point directories
       file:
         path: /mnt/{{ item }}
