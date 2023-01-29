@@ -3,7 +3,7 @@
   hosts: dev
 
   # roles:
-  #   - { role: geerlingguy.glusterfs,  become: yes }
+  #   - { role: geerlingguy.glusterfs,  become: true }
 
   vars:
     glusterfs_server_hostname: pirate
@@ -193,26 +193,40 @@
       group:
         name: docker
         state: present
-      become: yes
+      become: true
 
     - name: Add user to the docker group
       user:
         name: "{{ host_username }}"
         groups: docker
-        append: yes
-      become: yes
+        append: true
+      become: true
 
-    # - name: Ensure Gluster volume is mounted.
-    #   mount:
-    #     name: "{{ item }}"
-    #     src: "{{ glusterfs_server_hostname }}:/{{ item }}"
-    #     fstype: glusterfs
-    #     opts: "defaults,_netdev"
-    #     state: mounted
-    #   loop:
-    #     - media
-    #     - config
-    #     - backup
+    - name: Create Glusterfs mount point directories
+      file:
+        path: /mnt/{{ item }}
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+      become: true
+      loop:
+        - media
+        - config
+        - backup
+
+    - name: Ensure Gluster volume is mounted.
+      mount:
+        name: "{{ item }}"
+        path: "/mnt/{{ item }}"
+        src: "{{ glusterfs_server_hostname }}:/{{ item }}"
+        fstype: glusterfs
+        opts: "defaults,_netdev"
+        state: mounted
+      loop:
+        - media
+        - config
+        - backup
 
     # - name: Pull default Docker image
     #   community.docker.docker_image:
