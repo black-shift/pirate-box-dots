@@ -2,8 +2,8 @@
 - name: Configure Pirate Box
   hosts: dev
 
- roles:
-  - geerlingguy.glusterfs
+  roles:
+    - geerlingguy.glusterfs
 
   vars:
     glusterfs_server_hostname: pirate
