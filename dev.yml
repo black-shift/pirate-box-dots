@@ -227,6 +227,7 @@
         - media
         - config
         - backup
+      become: true
 
     # - name: Pull default Docker image
     #   community.docker.docker_image:
