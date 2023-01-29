@@ -217,7 +217,6 @@
 
     - name: Ensure Gluster volume is mounted.
       mount:
-        name: "{{ item }}"
         path: "/mnt/{{ item }}"
         src: "{{ glusterfs_server_hostname }}:/{{ item }}"
         fstype: glusterfs
