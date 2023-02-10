@@ -228,7 +228,7 @@
         path: "/mnt/{{ item }}"
         src: "{{ glusterfs_server_hostname }}:/{{ item }}"
         fstype: glusterfs
-        opts: "defaults,_netdev,uid=1000,gid=1000"
+        opts: "defaults,_netdev"
         state: mounted
       loop:
         - media
